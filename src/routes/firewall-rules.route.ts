@@ -1,9 +1,11 @@
 
 import { Router } from "express"
 
+import requireLogin from "../middlewares/auth.middleware"
+
 const router = Router()
 
-router.get('/panel', (req, res) => {
+router.get('/panel', requireLogin, (req, res) => {
 
 }) 
 

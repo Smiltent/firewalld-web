@@ -4,3 +4,65 @@
     margin: 0;
     box-sizing: border-box;
 }
+
+:root {
+    --bg: #f0f0f0;   
+}
+
+body {
+    background-color: var(--bg);
+}
+
+/* Helper */
+.fade {
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+.fadeOut {
+    opacity: 0;
+}
+
+/* Index Page */
+.index {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+
+    user-select: none;
+}
+
+.index-title {
+    font-family: 'Instrument Serif', 'Times New Roman', serif;
+    font-size: 3rem;
+}
+
+#index-passwd {
+    width: 10px;
+    height: 10px;
+
+    border: none;
+    background-color: var(--bg);
+    color: var(--bg);
+
+    position: absolute;
+}
+
+#index-passwd:focus, #index-passwd:active {
+    border: none;
+    outline: none;
+}
+
+#index-protip {
+    font-family: "Geist", sans-serif;
+    opacity: 0;
+
+    white-space: pre;
+
+    transition: opacity 0.5s ease-in-out;
+
+    line-height: 16px;
+    height: 16px;
+}
