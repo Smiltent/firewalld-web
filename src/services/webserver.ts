@@ -65,7 +65,7 @@ export default class WebserverService {
     }
 
     public routes() {
-        this.app.use('/panel', firewallRulesRoutes)
+        this.app.use('/d', firewallRulesRoutes)
         this.app.use('/', publicRoutes)
     }
 

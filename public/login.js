@@ -15,6 +15,10 @@ const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
 const TYPESPEED = 100
 const DELAY = 500
 
+async function wait(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 function type(element, text, speed) {
     element.innerText = ""
 
@@ -71,14 +75,12 @@ async function checkLogin(password) {
 
         document.body.classList.add("fadeOut")
 
-        setTimeout(async () => {
-            document.body.innerHTML = content
+        await wait(1200)
 
-            document.body.classList.remove("fadeOut")
-            history.pushState(null, "", "/dashboard")
+        document.body.innerHTML = content
 
-        }, 1200)
-
+        document.body.classList.remove("fadeOut")
+        history.pushState(null, "", "/dashboard")
     }
 }
 

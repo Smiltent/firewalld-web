@@ -1,6 +1,6 @@
 
-import { Router } from "express"
 import requireLogin from "../middlewares/auth.middleware"
+import { Router } from "express"
 
 const router = Router()
 

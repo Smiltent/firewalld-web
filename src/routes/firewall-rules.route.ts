@@ -1,12 +1,186 @@
 
-import { Router } from "express"
-
 import requireLogin from "../middlewares/auth.middleware"
+import { firewallService } from "../../index.ts"
+import { Router } from "express"
 
 const router = Router()
 
-router.get('/panel', requireLogin, (req, res) => {
+/**
+ * 
+ * FIREWALL GET REQUESTS
+ * 
+ */
+router.get('/get/zones', requireLogin, async (req, res) => {
+    try {
+        const data = await firewallService.getZones()
 
-}) 
+        return res.json({ type: "array", data })
+    } catch (err) {
+        console.error(`Failed to get zones: ${err}`)
+
+        return res.status(500).json({ type: "failed" })
+    }
+})
+
+router.get('/get/defaultzone', requireLogin, async (req, res) => {
+    try {
+        const data = await firewallService.getDefaultZone()
+
+        return res.json({ type: "string", data })
+    } catch (err) {
+        console.error(`Failed to get default zone: ${err}`)
+
+        return res.status(500).json({ type: "failed" })
+    }
+})
+
+router.get('/get/openports', requireLogin, async (req, res) => {
+    try {
+        const data = await firewallService.getOpenPorts()
+
+        return res.json({ type: "array", data })
+    } catch (err) {
+        console.error(`Failed to get ports: ${err}`)
+
+        return res.status(500).json({ type: "failed" })
+    }
+})
+
+router.get('/get/services', requireLogin, async (req, res) => {
+    try {
+        const data = await firewallService.getServices()
+
+        return res.json({ type: "array", data })
+    } catch (err) {
+        console.error(`Failed to get services: ${err}`)
+
+        return res.status(500).json({ type: "failed" })
+    }
+})
+
+router.get('/get/richrules', requireLogin, async (req, res) => {
+    try {
+        const data = await firewallService.getRichRules()
+
+        return res.json({ type: "array", data })
+    } catch (err) {
+        console.error(`Failed to get rich rules: ${err}`)
+
+        return res.status(500).json({ type: "failed" })
+    }
+})
+
+/**
+ * 
+ * FIREWALL POST REQUESTS
+ * 
+ */
+// deny * traffic from an IP
+router.post('/ip/deny', requireLogin, async (req, res) => {
+    const { ip } = req.body
+
+    if (!ip) return res.status(400).json({ type: "bad" })
+
+    try {
+        const data = await firewallService.denyIp(ip)
+        if (!data) throw new Error("Failed to deny traffic from IP")
+
+        return res.json({ type: "ok" })
+    } catch (err) {
+        console.error(`Failed to deny traffic from an IP: ${err}`)
+
+        return res.status(500).json({ type: "failed" })
+    }
+})
+
+// allow * traffic from an IP
+router.post('/ip/allow', requireLogin, async (req, res) => {
+    const { ip } = req.body
+
+    if (!ip) return res.status(400).json({ type: "bad" })
+
+    try {
+        const data = await firewallService.allowIp(ip)
+        if (!data) throw new Error("Failed to allow traffic from IP")
+
+        return res.json({ type: "ok" })
+    } catch (err) {
+        console.error(`Failed to allow traffic from IP: ${err}`)
+
+        return res.status(500).json({ type: "failed" })
+    }
+})
+
+// deny port traffic from an IP
+router.post('/ip/port/deny', requireLogin, async (req, res) => {
+    const { ip, port } = req.body
+
+    if (!ip || !port) return res.status(400).json({ type: "bad" })
+
+    try {
+        const data = await firewallService.denyPortForIp(port, ip)
+        if (!data) throw new Error("Failed to deny port traffic from IP")
+
+        return res.json({ type: "ok" })
+    } catch (err) {
+        console.error(`Failed to deny port traffic from IP: ${err}`)
+
+        return res.status(500).json({ type: "failed" })
+    }
+})
+
+// allow port traffic from an IP
+router.post('/ip/port/allow', requireLogin, async (req, res) => {
+    const { ip, port } = req.body
+
+    if (!ip || !port) return res.status(400).json({ type: "bad" })
+
+    try {
+        const data = await firewallService.allowPortForIp(port, ip)
+        if (!data) throw new Error("Failed to allow port traffic from IP")
+
+        return res.json({ type: "ok" })
+    } catch (err) {
+        console.error(`Failed to allow port traffic from IP: ${err}`)
+
+        return res.status(500).json({ type: "failed" })
+    }
+})
+
+// close port
+router.post(`/port/close`, requireLogin, async (req, res) => {
+    const { port } = req.body
+
+    if (!port) return res.status(400).json({ type: "bad" })
+
+    try {
+        const data = await firewallService.closePort(port)
+        if (!data) throw new Error("Failed to close port")
+
+        return res.json({ type: "ok" })
+    } catch (err) {
+        console.error(`Failed to close port: ${err}`)
+
+        return res.status(500).json({ type: "failed" })
+    }
+})
+
+// open port
+router.post(`/port/open`, requireLogin, async (req, res) => {
+    const { port } = req.body
+
+    if (!port) return res.status(400).json({ type: "bad" })
+
+    try {
+        const data = await firewallService.openPort(port)
+        if (!data) throw new Error("Failed to open port")
+
+        return res.json({ type: "ok" })
+    } catch (err) {
+        console.error(`Failed to open port: ${err}`)
+
+        return res.status(500).json({ type: "failed" })
+    }
+})
 
 export default router
