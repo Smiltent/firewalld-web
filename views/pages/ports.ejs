@@ -1,0 +1,20 @@
+<table>
+    <tr class="unselectable">
+        <th>port</th>
+        <th>actions</th>
+    </tr>
+    <% if (ports && ports[0] != "") { %>
+        <% ports.forEach(port => { %>
+            <tr>
+                <td><%= port %></td>
+                <td class="unselectable">
+                    <p class="fw-button-del pointer" onclick="deletePort('<%= port %>')">delete</p>
+                </td>
+            </tr>
+        <% }) %>
+    <% } else { %>
+        <tr>
+            <td colspan="2">no ports</td>
+        </tr>
+    <% } %>
+</table>

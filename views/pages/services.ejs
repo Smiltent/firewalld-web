@@ -1,0 +1,20 @@
+<table>
+    <tr>
+        <th>service</th>
+        <th>actions</th>
+    </tr>
+    <% if (services && services[0] != "") { %>
+        <% services.forEach(service => { %>
+            <tr>
+                <td><%= service %></td>
+                <td class="unselectable">
+                    <p class="fw-button-del pointer" onclick="deleteService('<%= service %>')">delete</p>
+                </td>
+            </tr>
+        <% }) %>
+    <% } else { %>
+        <tr>
+            <td colspan="2">no services</td>
+        </tr>
+    <% } %>
+</table>

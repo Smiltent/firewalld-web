@@ -3,7 +3,7 @@
 <head>
     <%- include(
         'components/$meta.ejs', 
-        { title: 'Index', "css": "style.css" }
+        { title: 'lurking', "css": "index.css" }
     ) %>
 </head>
 <body>
@@ -14,6 +14,8 @@
         <p id="index-protip"></p>
     </main>
 
-    <script src="/public/login.js"> </script>
+    <script type="module">
+        import "/public/js/index.js"
+    </script>
 </body>
 </html>

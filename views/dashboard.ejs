@@ -3,12 +3,33 @@
 <head>
     <%- include(
         'components/$meta.ejs', 
-        { title: 'Index', "css": "style.css" }
+        { title: 'dashboard', "css": "dashboard.css" }
     ) %>
 </head>
 <body>
-    <main class="index">
-        <h1 class="index-title">authorized</h1>
+    <main class="dashboard">
+        <div class="flex flex-col">
+            <div class="header flex flex-row">
+                <div class="header-right flex flex-row">
+                    <p value="main" class="page pointer" id="h-selected">main</p>
+                    <p value="add" class="page pointer">add</p>
+                    <p value="ports" class="page pointer">ports</p>
+                    <p value="services" class="page pointer">services</p>
+                    <p value="richrules" class="page pointer">rich rules</p>
+                </div>
+                <div class="header-left flex flex-row">
+                    <p class="pointer" id="theme">theme/</p>
+                    <p class="pointer" id="logout">logout/</p>
+                </div>
+            </div>
+            <div class="content flex flex-col">
+                <p>authenticated...</p>
+            </div>
+        </div>
     </main>
+
+    <script type="module">
+        import "/public/js/dashboard.js"
+    </script>
 </body>
 </html>

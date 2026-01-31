@@ -3,7 +3,18 @@
 
 <title><%= title || 'Undefined' %></title>
 
-<link rel="stylesheet" href="/public/<%= css || 'style.css' %>" />
+<script>
+    const theme = localStorage.getItem("theme")
+    if (theme) {
+        document.documentElement.setAttribute("data-theme", theme)
+    }
+</script>
+
+<link rel="stylesheet" href="/public/css/style.css" />
+<link rel="stylesheet" href="/public/css/<%= css || 'style.css' %>" />
+
+<link rel="preload" href="/public/js/index.js" as="script" crossorigin="anonymous">
+<link rel="preload" href="/public/js/dashboard.js" as="script" crossorigin="anonymous">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

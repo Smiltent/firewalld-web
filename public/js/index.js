@@ -7,13 +7,13 @@ const mobileProTip = "pro tip: lol, im not supporting mobile devices"
 const proTipElement = document.getElementById("index-protip")
 const passwordElement = document.getElementById("index-passwd")
 
-// check if the user is on a mobile device
+// check if the user is on a portable cellurar 
 const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
     navigator.userAgent
 )
 
 const TYPESPEED = 100
-const DELAY = 500
+const DELAY = TYPESPEED + 400
 
 async function wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))
@@ -28,7 +28,6 @@ function type(element, text, speed) {
 
     function step(timestamp) {
         if (timestamp - lastTime >= delay) {
-
             element.innerText += text[idx]
 
             delay = text[idx] === "," || text[idx] === ":" ? DELAY : speed
@@ -56,7 +55,7 @@ function runProTip() {
 async function checkLogin(password) {
     document.body.classList.add("fade")
 
-    const res = await fetch("/authorize", {
+    const res = await fetch("/a", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -65,7 +64,7 @@ async function checkLogin(password) {
     })
 
     if (res.ok) {
-        const dashboard = await fetch("/dashboard")
+        const dashboard = await fetch("/d")
         const html = await dashboard.text()
 
         const parser = new DOMParser()
@@ -76,11 +75,13 @@ async function checkLogin(password) {
         document.body.classList.add("fadeOut")
 
         await wait(1200)
-
+        
         document.body.innerHTML = content
+        await import("/public/js/dashboard.js");
 
+        document.head.innerHTML = doc.head.innerHTML
         document.body.classList.remove("fadeOut")
-        history.pushState(null, "", "/dashboard")
+        history.pushState(null, "", "/d")
     }
 }
 

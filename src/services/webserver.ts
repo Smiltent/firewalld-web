@@ -8,6 +8,7 @@ import cors from "cors"
 
 import firewallRulesRoutes from '../routes/firewall-rules.route.js'
 import publicRoutes from '../routes/public.route.js'
+import pagesRoutes from '../routes/pages.route.js'
 
 export default class WebserverService {
     private port: string
@@ -66,6 +67,7 @@ export default class WebserverService {
 
     public routes() {
         this.app.use('/d', firewallRulesRoutes)
+        this.app.use('/p', pagesRoutes)
         this.app.use('/', publicRoutes)
     }
 

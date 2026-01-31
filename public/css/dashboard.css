@@ -1,0 +1,64 @@
+
+body {
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    height: 100vh;
+}
+
+main {
+    padding: 0.75rem 2rem;
+
+    width: 60vw;
+}
+
+.header {
+    font-family: 'Instrument Serif', 'Times New Roman', serif;
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+    padding-bottom: 0.45rem;
+
+    user-select: none;
+}
+
+.header-right p:not(:last-child) {
+    margin-right: 0.7rem;
+}
+
+.header-left p:not(:last-child) {
+    margin-right: 1rem;
+}
+
+.header-right p, .header-left p {
+    line-height: 3rem;
+    font-size: 1.5rem;
+}
+
+.header-right #h-selected {
+    font-weight: bold;
+    font-size: 3rem;
+}
+
+.content {
+    font-family: "Geist", sans-serif;
+}
+
+.content table {
+    border: 1px solid var(--text);
+    border-collapse: collapse;
+}
+
+.content table th, .content table td {
+    border: 1px solid var(--text);
+    padding: 0.5rem;
+}
+
+.fw-button-del {
+    cursor: pointer;
+    user-select: none;
+}

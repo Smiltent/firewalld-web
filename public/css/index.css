@@ -1,27 +1,4 @@
 
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
-:root {
-    --bg: #f0f0f0;   
-}
-
-body {
-    background-color: var(--bg);
-}
-
-/* Helper */
-.fade {
-    opacity: 1;
-    transition: opacity 0.5s ease;
-}
-
-.fadeOut {
-    opacity: 0;
-}
 
 /* Index Page */
 .index {
