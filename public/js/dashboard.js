@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     })
 
-    loadPage(hash ? hash : "index")
+    loadPage(hash ? hash : "main")
 })
 
 document.getElementById("logout").addEventListener("click", async () => {

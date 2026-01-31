@@ -10,6 +10,7 @@
     --white: #fffafa;
     --green: #40a02b;
     --red: #e64553;
+    --yellow: #df8e1d;
 
     --bg: var(--white);
     --text: var(--black); 
@@ -29,9 +30,10 @@ body {
     background-color: var(--bg); 
     color: var(--text); 
 
-    transition: background-color 0.25s ease, color 0.25s ease;
+    transition: background-color 0.25s ease, color 0.25s ease, opacity 0.5s ease;
 }
 
+/* Helper */
 .flex { display: flex; }
 .flex-col { flex-direction: column; }
 .flex-row { flex-direction: row; }
@@ -43,10 +45,31 @@ body {
 .unselectable { user-select: none; }
 .pointer { cursor: pointer; }
 
-/* Helper */
-.fade {
-    opacity: 1;
-    transition: opacity 0.5s ease;
+.absolute { position: absolute; }
+.relative { position: relative; }
+
+/* Modal */
+.modal-container {
+    top: 0.5rem;
+    left: 0.5rem;
 }
 
+.modal {
+    width: 15rem;
+    padding: 0.5rem 0.9rem;
+
+    transition: opacity 0.5s ease;
+    opacity: 0;
+
+    border-radius: 5px;
+}
+
+.modal h2 {font-family: 'Instrument Serif', 'Times New Roman', serif; }
+.modal p { font-family: "Geist", sans-serif; }
+
+.modal-good h2 { color: var(--green); }
+.modal-bad h2 { color: var(--red); }
+.modal-warning h2 { color: var(--yellow); }
+
+.fadeIn { opacity: 1; }
 .fadeOut { opacity: 0; }

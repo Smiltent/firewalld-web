@@ -1,7 +1,9 @@
 
 // "pro tips"
-const userLoginProTip = "pro tip: there is no login form, just write and enter"
-const mobileProTip = "pro tip: lol, im not supporting mobile devices"
+const PROTIPS = {
+    "pc": "pro tip: there is no login form, just write and enter",
+    "phone": "pro tip: lol, im not supporting mobile devices"
+}
 
 // elements
 const proTipElement = document.getElementById("index-protip")
@@ -19,6 +21,7 @@ async function wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
+// typewriter effect
 function type(element, text, speed) {
     element.innerText = ""
 
@@ -44,16 +47,50 @@ function type(element, text, speed) {
     requestAnimationFrame(step)
 }
 
+// pro tip for start page
 function runProTip() {
-    const tip = isMobile ? mobileProTip : userLoginProTip
+    const tip = isMobile ? PROTIPS.phone : PROTIPS.pc
 
     proTipElement.style.opacity = 0.05
-    
     type(proTipElement, tip, TYPESPEED)
 }
 
+function displayModal(type, msg) {
+    const modalContainer = document.querySelector(".modal-container")
+
+    const modal = document.createElement("div")
+    modal.classList.add("modal", `modal-${type}`)
+    
+    const h2 = document.createElement("h2")
+    h2.innerText = type.toLowerCase()
+
+    const p = document.createElement("p")
+    p.innerText = msg 
+
+    modal.appendChild(h2)
+    modal.appendChild(p)
+
+    modalContainer.appendChild(modal)
+
+    // i don't get it... previously i made it request an animation frame - that didn't work, 
+    // but when I add 2 WHOLE MILISECONDS IT WORKS?!?!?
+    setTimeout(() => {
+        modal.style.opacity = "1"
+    }, 2)
+
+    setTimeout(() => {
+        modal.style.opacity = "0"
+
+        modal.addEventListener("transitionend", () => {
+            modal.remove()
+        }, { once: true })
+    }, 1700)
+}
+
+// check if the user logs in with a valid password,
+// then redirect
 async function checkLogin(password) {
-    document.body.classList.add("fade")
+    if (!password) return
 
     const res = await fetch("/a", {
         method: "POST",
@@ -63,32 +100,32 @@ async function checkLogin(password) {
         body: JSON.stringify({ password })
     })
 
-    if (res.ok) {
-        const dashboard = await fetch("/d")
-        const html = await dashboard.text()
-
-        const parser = new DOMParser()
-        const doc = parser.parseFromString(html, "text/html")
-
-        const content = doc.body.innerHTML
-
-        document.body.classList.add("fadeOut")
-
-        await wait(1200)
-        
-        document.body.innerHTML = content
-        await import("/public/js/dashboard.js");
-
-        document.head.innerHTML = doc.head.innerHTML
-        document.body.classList.remove("fadeOut")
-        history.pushState(null, "", "/d")
+    if (!res.ok) {
+        displayModal("bad", await res.text())
+        return
     }
+
+    const dashboard = await fetch("/d")
+    const html = await dashboard.text()
+    const doc = new DOMParser().parseFromString(html, "text/html")
+
+    document.body.classList.add("fadeOut")
+
+    await wait(1200)
+    
+    document.head.innerHTML = doc.head.innerHTML
+    document.body.innerHTML = doc.body.innerHTML
+    await import("/public/js/dashboard.js")
+
+    document.body.classList.remove("fadeOut")        
+    history.pushState(null, "", "/d")
 }
 
 document.addEventListener("DOMContentLoaded", () => {
     setTimeout(runProTip, 10000)
 })
 
+// password input listening
 var passwordBuffer = ""
 document.addEventListener("keydown", (e) => {
     if (e.key.length === 1) {
@@ -100,10 +137,9 @@ document.addEventListener("keydown", (e) => {
 
         passwordBuffer = ""
     }
-
-    if (passwordBuffer.length > 200) passwordBuffer = passwordBuffer.slice(-200);
 })
 
+// support for autofill - only tested with BitWarden w/ Firefox
 passwordElement.addEventListener("input", (e) => {
     checkLogin(passwordElement.value)
 })

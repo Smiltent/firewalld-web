@@ -1,10 +1,85 @@
-<form action="POST" class="flex flex-col">
-    <select name="type" id="type">
-        <option value="port">port</option>
-        <option value="ip">ip</option>
-        <option value="portForIp">port for ip</option>
+
+<h2>quick add</h2>
+<!-- ips -->
+<form method="POST">
+    <select name="type">
+        <option value="drop">drop</option>
+        <option value="reject">reject</option>
+        <option value="accept">accept</option>
     </select>
-    <input type="text" name="port" id="port" placeholder="port">
     <input type="text" name="ip" id="ip" placeholder="ip">
     <input type="submit" value="add">
+</form>
+
+<!-- ports -->
+<form action="POST">
+    <select name="type">
+        <option value="drop">drop</option>
+        <option value="reject">reject</option>
+        <option value="accept">accept</option>
+    </select>
+    <select name="protocol">
+        <option value="tcp">tcp</option>
+        <option value="udp">udp</option>
+    </select>
+    <input type="text" name="port" id="port" placeholder="port">
+    <input type="submit" value="add">
+</form>
+
+<h2>bulk ips</h2>
+<form method="POST">
+    <select name="type">
+        <option value="drop">drop</option>
+        <option value="reject">reject</option>
+        <option value="accept">accept</option>
+    </select>
+    <select name="seperate">
+        <option value="newline">newline (\n)</option>
+        <option value="comma">comma (,)</option>
+        <option value="pipe">pipe (|)</option>
+    </select>
+    <input type="text" name="ips" placeholder="ips">
+</form>
+
+<h2>target</h2>
+<form method="POST">
+    <select name="zone">
+        <% zones.forEach(zone => { %>
+            <option value="<%= zone %>"><%= zone %></option>
+        <% }) %>
+    </select>
+
+    <select name="target">
+        <option value="accept">accept</option>
+        <option value="drop">drop</option>
+        <option value="reject">reject</option>
+    </select>
+</form>
+
+
+<h2>rich rule add</h2>
+<form method="POST">
+    <select name="family">
+        <option value="ipv4">ipv4</option>
+        <option value="ipv6">ipv6</option>
+    </select>
+    <select name="type">
+        <option value="drop">drop</option>
+        <option value="reject">reject</option>
+        <option value="accept">accept</option>
+    </select>
+    <select name="protocol">
+        <option value="tcp">tcp</option>
+        <option value="udp">udp</option>
+        <option value="icmp">icmp</option>
+    </select>
+    <select name="loglevel">
+        <option value="">none</option>
+        <option value="info">info</option>
+        <option value="warning"></option>
+    </select>
+
+    <input type="text" name="source" placeholder="source ip (from)">
+    <input type="text" name="destination" placeholder="destination ip (to)">
+    <input type="text" name="limit" placeholder="limit (5/s, 10/m, 15/h, ...)">
 </form>

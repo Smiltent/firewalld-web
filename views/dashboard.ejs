@@ -7,23 +7,39 @@
     ) %>
 </head>
 <body>
-    <main class="dashboard">
-        <div class="flex flex-col">
-            <div class="header flex flex-row">
-                <div class="header-right flex flex-row">
-                    <p value="main" class="page pointer" id="h-selected">main</p>
-                    <p value="add" class="page pointer">add</p>
-                    <p value="ports" class="page pointer">ports</p>
-                    <p value="services" class="page pointer">services</p>
-                    <p value="richrules" class="page pointer">rich rules</p>
+    <div class="modal-container absolute flex flex-col">
+        <!-- <div class="modal modal-good flex flex-col">
+            <h2 id="modalText">good</h2>
+            <p id="modalInfo">this means its good</p>
+        </div>
+        <div class="modal modal-bad flex flex-col">
+            <h2 id="modalText">bad</h2>
+            <p id="modalInfo">this means its bad</p>
+        </div>
+        <div class="modal modal-warning flex flex-col">
+            <h2 id="modalText">warning</h2>
+            <p id="modalInfo">this means its kinda bad</p>
+        </div> -->
+    </div>
+    <main>
+        <div class="container">
+            <div class="flex flex-col">
+                <div class="header flex flex-row">
+                    <div class="header-right flex flex-row">
+                        <p value="main" class="page pointer" id="h-selected">main</p>
+                        <p value="add" class="page pointer">add</p>
+                        <p value="ports" class="page pointer">ports</p>
+                        <p value="services" class="page pointer">services</p>
+                        <p value="richrules" class="page pointer">rich rules</p>
+                    </div>
+                    <div class="header-left flex flex-row">
+                        <p class="pointer" id="theme">theme/</p>
+                        <p class="pointer" id="logout">logout/</p>
+                    </div>
                 </div>
-                <div class="header-left flex flex-row">
-                    <p class="pointer" id="theme">theme/</p>
-                    <p class="pointer" id="logout">logout/</p>
+                <div class="content flex flex-col">
+                    <p>authenticated...</p>
                 </div>
-            </div>
-            <div class="content flex flex-col">
-                <p>authenticated...</p>
             </div>
         </div>
     </main>

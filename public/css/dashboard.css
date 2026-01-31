@@ -1,17 +1,22 @@
 
 body {
+    width: 100vw;
+    height: 100vh;
+}
+
+main {
     display: flex;
 
     align-items: center;
     justify-content: center;
 
     height: 100vh;
+    padding: 0.75rem 2rem;
 }
 
-main {
-    padding: 0.75rem 2rem;
-
+.container {
     width: 60vw;
+    min-height: 50vh;
 }
 
 .header {
@@ -26,13 +31,8 @@ main {
     user-select: none;
 }
 
-.header-right p:not(:last-child) {
-    margin-right: 0.7rem;
-}
-
-.header-left p:not(:last-child) {
-    margin-right: 1rem;
-}
+.header-right p:not(:last-child) { margin-right: 0.7rem; }
+.header-left p:not(:last-child) { margin-right: 1rem; }
 
 .header-right p, .header-left p {
     line-height: 3rem;
@@ -44,10 +44,7 @@ main {
     font-size: 3rem;
 }
 
-.content {
-    font-family: "Geist", sans-serif;
-}
-
+.content { font-family: "Geist", sans-serif; }
 .content table {
     border: 1px solid var(--text);
     border-collapse: collapse;
@@ -56,9 +53,4 @@ main {
 .content table th, .content table td {
     border: 1px solid var(--text);
     padding: 0.5rem;
-}
-
-.fw-button-del {
-    cursor: pointer;
-    user-select: none;
 }
