@@ -1,85 +1,110 @@
 
-<h2>quick add</h2>
-<!-- ips -->
-<form method="POST">
-    <select name="type">
-        <option value="drop">drop</option>
-        <option value="reject">reject</option>
-        <option value="accept">accept</option>
-    </select>
-    <input type="text" name="ip" id="ip" placeholder="ip">
-    <input type="submit" value="add">
-</form>
+<div class="add-container flex flex-col">
+    <div class="flex flex-row">
+        <div class="add-section">
+            <h2>quick add</h2>
+            <!-- ips -->
+            <form method="POST" class="flex flex-row">
+                <select name="type">
+                    <option value="drop">drop</option>
+                    <option value="reject">reject</option>
+                    <option value="accept">accept</option>
+                </select>
+                <p>—</p>
+                <input type="text" name="ip" id="ip" placeholder="ip (192.168.0.1)">
+                <input type="submit" value="add">
+            </form>
 
-<!-- ports -->
-<form action="POST">
-    <select name="type">
-        <option value="drop">drop</option>
-        <option value="reject">reject</option>
-        <option value="accept">accept</option>
-    </select>
-    <select name="protocol">
-        <option value="tcp">tcp</option>
-        <option value="udp">udp</option>
-    </select>
-    <input type="text" name="port" id="port" placeholder="port">
-    <input type="submit" value="add">
-</form>
+            <!-- ports -->
+            <form method="POST" class="flex flex-row">
+                <select name="type">
+                    <option value="drop">drop</option>
+                    <option value="reject">reject</option>
+                    <option value="accept">accept</option>
+                </select>
+                <p>—</p>
 
-<h2>bulk ips</h2>
-<form method="POST">
-    <select name="type">
-        <option value="drop">drop</option>
-        <option value="reject">reject</option>
-        <option value="accept">accept</option>
-    </select>
-    <select name="seperate">
-        <option value="newline">newline (\n)</option>
-        <option value="comma">comma (,)</option>
-        <option value="pipe">pipe (|)</option>
-    </select>
-    <input type="text" name="ips" placeholder="ips">
-</form>
+                <input type="text" name="port" id="port" placeholder="port (8080)">
+                <p>/</p>
+                
+                <select name="protocol">
+                    <option value="tcp">tcp</option>
+                    <option value="udp">udp</option>
+                    <option value="icmp">icmp</option>
+                </select>
+                <input type="submit" value="add">
+            </form>
+        </div>
 
-<h2>target</h2>
-<form method="POST">
-    <select name="zone">
-        <% zones.forEach(zone => { %>
-            <option value="<%= zone %>"><%= zone %></option>
-        <% }) %>
-    </select>
+        <div class="add-section">
+            <h2>target</h2>
+            <form method="POST" class="flex flex-row">
+                <select name="zone">
+                    <% zones.forEach(zone => { %>
+                        <option value="<%= zone %>"><%= zone %></option>
+                    <% }) %>
+                </select>
+                <p>—</p>
 
-    <select name="target">
-        <option value="accept">accept</option>
-        <option value="drop">drop</option>
-        <option value="reject">reject</option>
-    </select>
-</form>
+                <select name="target">
+                    <option value="accept">accept</option>
+                    <option value="drop">drop</option>
+                    <option value="reject">reject</option>
+                </select>
+            </form>
+        </div>
+    </div>
 
+    <div class="flex flex-row">
+        <div class="add-section">
+            <h2>bulk ips</h2>
+            <form method="POST" class="flex flex-col">
+                <textarea name="ips" id="ips" rows="10" placeholder="example: 192.168.0.0/24 192.168.0.1"></textarea>
+                <div class="flex flex-row">
+                    <select name="type">
+                        <option value="drop">drop</option>
+                        <option value="reject">reject</option>
+                        <option value="accept">accept</option>
+                    </select>
+                    <select name="seperate">
+                        <option value="newline">newline (\n)</option>
+                        <option value="semicolon">semicolon (;)</option>
+                        <option value="comma">comma (,)</option>
+                    </select>
+                    <input type="submit" value="add">
+                </div>
+            </form>
+        </div>
 
-<h2>rich rule add</h2>
-<form method="POST">
-    <select name="family">
-        <option value="ipv4">ipv4</option>
-        <option value="ipv6">ipv6</option>
-    </select>
-    <select name="type">
-        <option value="drop">drop</option>
-        <option value="reject">reject</option>
-        <option value="accept">accept</option>
-    </select>
-    <select name="protocol">
-        <option value="tcp">tcp</option>
-        <option value="udp">udp</option>
-        <option value="icmp">icmp</option>
-    </select>
-    <select name="loglevel">
-        <option value="">none</option>
-        <option value="info">info</option>
-        <option value="warning"></option>
-    </select>
+        <div class="add-section">
+            <h2>rich rule</h2>
+            <form method="POST">
+                <select name="family">
+                    <option value="ipv4">ipv4</option>
+                    <option value="ipv6">ipv6</option>
+                </select>
+                <select name="type">
+                    <option value="drop">drop</option>
+                    <option value="reject">reject</option>
+                    <option value="accept">accept</option>
+                </select>
+                <select name="protocol">
+                    <option value="tcp">tcp</option>
+                    <option value="udp">udp</option>
+                    <option value="icmp">icmp</option>
+                </select>
 
-    <input type="text" name="source" placeholder="source ip (from)">
-    <input type="text" name="destination" placeholder="destination ip (to)">
-    <input type="text" name="limit" placeholder="limit (5/s, 10/m, 15/h, ...)">
-</form>
+                <div>
+                    <input type="text" name="sourceIp" placeholder="source ip (from)">
+                    <input type="text" name="destinationIp" placeholder="destination ip (to)">
+                </div>
+                <div>
+
+                <input type="text" name="limit" placeholder="limit (5/s, 10/m, 15/h, ...)">
+
+                <input type="submit" value="add">
+            </form>
+        </div>
+    </div>
+</div>
+

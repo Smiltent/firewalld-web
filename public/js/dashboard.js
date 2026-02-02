@@ -1,8 +1,16 @@
 
+const ROUTES = {
+    
+}
+
 async function loadPage(page) {
     const response = await fetch("/p/" + page)
 
-    document.querySelector(".content").innerHTML = await response.text()
+    if (response.ok) {
+        document.querySelector(".content").innerHTML = await response.text()
+    } else {
+        location.href = "/l"    
+    }
 }
 
 document.querySelectorAll(".page").forEach(page => {

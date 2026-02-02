@@ -14,6 +14,42 @@ main {
     padding: 0.75rem 2rem;
 }
 
+textarea {
+    font-family: "Geist", sans-serif;
+    padding: 0.25rem;
+
+    resize: none;
+    border: none;
+    outline: none;
+}
+
+input, select {
+    border: none;
+    outline: none;
+
+    border-bottom: 1px solid var(--text);
+    border-radius: 3px;
+
+    background-color: var(--bg);
+    color: var(--text);
+
+    padding: 0.2rem;
+}
+
+input[type="submit"] {
+    margin-left: 1rem;
+    cursor: pointer;
+}
+
+.add-section {
+    padding-bottom: 1rem;
+}
+
+.add-container {
+    justify-content: space-between;
+    width: 100%;
+}
+
 .container {
     width: 60vw;
     min-height: 50vh;
@@ -31,7 +67,11 @@ main {
     user-select: none;
 }
 
-.header-right p:not(:last-child) { margin-right: 0.7rem; }
+.add-container .add-section:last-child {
+    margin-left: auto;
+}
+
+.header-right p:not(:last-child), 
 .header-left p:not(:last-child) { margin-right: 1rem; }
 
 .header-right p, .header-left p {
@@ -39,7 +79,7 @@ main {
     font-size: 1.5rem;
 }
 
-.header-right #h-selected {
+.header-right #h-selected {   
     font-weight: bold;
     font-size: 3rem;
 }
@@ -53,4 +93,11 @@ main {
 .content table th, .content table td {
     border: 1px solid var(--text);
     padding: 0.5rem;
+}
+
+@media screen and (max-width: 900px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
 }

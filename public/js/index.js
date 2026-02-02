@@ -16,6 +16,7 @@ const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(
 
 const TYPESPEED = 100
 const DELAY = TYPESPEED + 400
+var LOGGEDIN = false
 
 async function wait(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms))
@@ -49,6 +50,7 @@ function type(element, text, speed) {
 
 // pro tip for start page
 function runProTip() {
+    if (LOGGEDIN) return
     const tip = isMobile ? PROTIPS.phone : PROTIPS.pc
 
     proTipElement.style.opacity = 0.05
@@ -90,6 +92,7 @@ function displayModal(type, msg) {
 // check if the user logs in with a valid password,
 // then redirect
 async function checkLogin(password) {
+    if (LOGGEDIN) return
     if (!password) return
 
     const res = await fetch("/a", {
@@ -104,6 +107,8 @@ async function checkLogin(password) {
         displayModal("bad", await res.text())
         return
     }
+
+    LOGGEDIN = true
 
     const dashboard = await fetch("/d")
     const html = await dashboard.text()
@@ -128,6 +133,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // password input listening
 var passwordBuffer = ""
 document.addEventListener("keydown", (e) => {
+    if (LOGGEDIN) return
+
     if (e.key.length === 1) {
         passwordBuffer += e.key;
     }

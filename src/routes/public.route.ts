@@ -1,4 +1,5 @@
 
+import path from "path"
 import requireLogin from "../middlewares/auth.middleware"
 import { Router } from "express"
 
@@ -23,7 +24,7 @@ router.get("/l", (req, res) => {
 })
 
 router.get("/favicon.ico", (req, res) => {
-    res.sendFile("public/favicon.ico")
+    res.sendFile(path.join(__dirname, "..", "..", "public/", "favicon.ico"))
 })
 
 router.post('/a', (req, res) => {
