@@ -78,7 +78,7 @@
 
         <div class="add-section">
             <h2>rich rule</h2>
-            <form method="POST">
+            <form method="POST" action="/">
                 <select name="family">
                     <option value="ipv4">ipv4</option>
                     <option value="ipv6">ipv6</option>
@@ -99,6 +99,9 @@
                     <input type="text" name="destinationIp" placeholder="destination ip (to)">
                 </div>
                 <div>
+                    <input type="text" name="sourcePort" placeholder="source port (from)">
+                    <input type="text" name="destinationPort" placeholder="destination port (to)">
+                </div>
 
                 <input type="text" name="limit" placeholder="limit (5/s, 10/m, 15/h, ...)">
 

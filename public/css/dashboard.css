@@ -43,6 +43,11 @@ input[type="submit"] {
 
 .add-section {
     padding-bottom: 1rem;
+    width: 100%;
+}
+
+.add-section:first-child {
+    padding-right: 2rem;
 }
 
 .add-container {

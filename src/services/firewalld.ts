@@ -1,10 +1,6 @@
 
 import { exec } from "child_process"
-
-enum PortProtocols {
-    tcp = "tcp",
-    udp = "udp"
-}
+import { PortProtocols } from "../util/keys"
 
 export default class FirewalldService {
     /**
@@ -41,7 +37,6 @@ export default class FirewalldService {
      */
     private async reload(): Promise<boolean> {
         var result = await this.firewallcmd('--reload')
-
         return result == "success" ? true : false
     }
 
@@ -73,7 +68,7 @@ export default class FirewalldService {
     }
 
     // ===================================================
-    // ports
+    // removing rich rules
     // ===================================================
     public async removeRichRule(rule: string) {
         var result = await this.firewallcmd(`--remove-rich-rule='${rule}'`)
@@ -85,43 +80,25 @@ export default class FirewalldService {
     // ===================================================
     // ports
     // ===================================================
-    public async openPort(port: string, protocol: PortProtocols = PortProtocols.tcp) {
+    public async typePort(port: string, protocol: PortProtocols = PortProtocols.tcp) {
         var result = await this.firewallcmd(`--add-port=${port}/${protocol} --permanent`)
         var reload = await this.reload()
 
         return result == "success" && reload == true ? true : false
     }
-    public async closePort(port: string, protocol: PortProtocols = PortProtocols.tcp) {
-        var result = await this.firewallcmd(`--remove-port=${port}/${protocol} --permanent`)
-        var reload = await this.reload()
-
-        return result == "success" && reload == true ? true : false
-    }
 
     // ===================================================
-    // rich rules - supports ip ranges and port ranges (i think)
+    // rich rules - supports ip ranges and port ranges
     // ===================================================
-    public async denyIp(ip: string) {
-        var result = await this.richrule(`rule family="ipv4" source address="${ip}" drop`)
-        var reload = await this.reload()
-
-        return result == "success" && reload == true ? true : false
-    }
-    public async allowIp(ip: string) {
-        var result = await this.richrule(`rule family="ipv4" source address="${ip}" accept`)
+    public async typeIp(ip: string, type: string) {
+        var result = await this.richrule(`rule family="ipv4" source address="${ip}" ${type}`)
         var reload = await this.reload()
 
         return result == "success" && reload == true ? true : false
     }
 
-    public async denyPortForIp(port: string, ip: string) {
-        var result = await this.richrule(`rule family="ipv4" source address="${ip}" port port="${port}" protocol="tcp" drop`)
-        var reload = await this.reload()
-
-        return result == "success" && reload == true ? true : false
-    }
-    public async allowPortForIp(port: string, ip: string) {
-        var result = await this.richrule(`rule family="ipv4" source address="${ip}" port port="${port}" protocol="tcp" accept`)
+    public async typePortForIp(port: string, ip: string, protocol: PortProtocols = PortProtocols.tcp, type: string) {
+        var result = await this.richrule(`rule family="ipv4" source address="${ip}" port port="${port}" protocol="${protocol}" ${type}`)
         var reload = await this.reload()
 
         return result == "success" && reload == true ? true : false

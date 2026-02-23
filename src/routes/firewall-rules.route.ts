@@ -1,119 +1,88 @@
 
+import { PortProtocols, SeperatorKeys, TypeKeys } from "../util/keys.ts"
 import requireLogin from "../middlewares/auth.middleware"
 import { firewallService } from "../../index.ts"
 import { Router } from "express"
 
 const router = Router()
 
-/**
- * 
- * FIREWALL POST REQUESTS
- * 
- */
-// deny * traffic from an IP
-router.post('/ip/deny', requireLogin, async (req, res) => {
-    const { ip } = req.body
+// <allow / deny> * traffic from an IP
+router.post('/ip', requireLogin, async (req, res) => {
+    const { ip, type } = req.body
 
+    if (!type || !(type in TypeKeys)) return res.status(400).json({ type: "bad" })
     if (!ip) return res.status(400).json({ type: "bad" })
 
     try {
-        const data = await firewallService.denyIp(ip)
-        if (!data) throw new Error("Failed to deny traffic from IP")
+        const data = await firewallService.typeIp(ip, type)
+        if (!data) throw new Error(`Failed to ${type} traffic from IP`)
 
         return res.json({ type: "ok" })
     } catch (err) {
-        console.error(`Failed to deny traffic from an IP: ${err}`)
-
+        console.error(`Failed to ${type} traffic from an IP: ${err}`)
         return res.status(500).json({ type: "failed" })
     }
 })
 
-// allow * traffic from an IP
-router.post('/ip/allow', requireLogin, async (req, res) => {
-    const { ip } = req.body
+// <allow / deny> * traffic from a bulk of IPs, using a seperator
+router.post('/ip-bulk', requireLogin, async (req, res) => {
+    const { ips, seperator, type } = req.body
 
-    if (!ip) return res.status(400).json({ type: "bad" })
+    if (!seperator || !(seperator in SeperatorKeys)) return res.status(400).json({ type: "bad" })
+    if (!type || !(type in TypeKeys)) return res.status(400).json({ type: "bad" })
+    if (!ips) return res.status(400).json({ type: "bad" })
+
+    const ipsArray = ips
+        .split(SeperatorKeys[seperator as keyof typeof SeperatorKeys])
+        .map((ip: string) => ip.trim())
+        .filter((ip: string) => ip.length > 0)
 
     try {
-        const data = await firewallService.allowIp(ip)
-        if (!data) throw new Error("Failed to allow traffic from IP")
-
-        return res.json({ type: "ok" })
+        for (const ip of ipsArray) {
+            const data = await firewallService.typeIp(ip, type)
+            if (!data) {
+                console.error(`Failed to ${type} traffic from IP (bulk): ${ip}`)
+                continue
+            }
+        }
     } catch (err) {
-        console.error(`Failed to allow traffic from IP: ${err}`)
-
-        return res.status(500).json({ type: "failed" })
+        console.error(`Failed to ${type} traffic from IPs: ${err}`)
     }
 })
 
-// deny port traffic from an IP
-router.post('/ip/port/deny', requireLogin, async (req, res) => {
-    const { ip, port } = req.body
+// <allow / deny> port traffic from an IP
+router.post('/ip-port', requireLogin, async (req, res) => {
+    const { ip, port, type } = req.body
 
+    if (!type || !(type in TypeKeys)) return res.status(400).json({ type: "bad" })
     if (!ip || !port) return res.status(400).json({ type: "bad" })
 
     try {
-        const data = await firewallService.denyPortForIp(port, ip)
+        const data = await firewallService.typePortForIp(port, ip, PortProtocols.tcp, type) // for now tcp, later on add udp
         if (!data) throw new Error("Failed to deny port traffic from IP")
 
         return res.json({ type: "ok" })
     } catch (err) {
-        console.error(`Failed to deny port traffic from IP: ${err}`)
-
+        console.error(`Failed to ${type} port traffic from IP: ${err}`)
         return res.status(500).json({ type: "failed" })
     }
 })
 
-// allow port traffic from an IP
-router.post('/ip/port/allow', requireLogin, async (req, res) => {
-    const { ip, port } = req.body
 
-    if (!ip || !port) return res.status(400).json({ type: "bad" })
+// <open / close> port
+router.post(`/port`, requireLogin, async (req, res) => {
+    const { port, type } = req.body
 
-    try {
-        const data = await firewallService.allowPortForIp(port, ip)
-        if (!data) throw new Error("Failed to allow port traffic from IP")
-
-        return res.json({ type: "ok" })
-    } catch (err) {
-        console.error(`Failed to allow port traffic from IP: ${err}`)
-
-        return res.status(500).json({ type: "failed" })
-    }
-})
-
-// close port
-router.post(`/port/close`, requireLogin, async (req, res) => {
-    const { port } = req.body
-
+    if (!type || !(type in TypeKeys)) return res.status(400).json({ type: "bad" })
     if (!port) return res.status(400).json({ type: "bad" })
 
     try {
-        const data = await firewallService.closePort(port)
-        if (!data) throw new Error("Failed to close port")
+        const data = await firewallService.typePort(port, type)
+        if (!data) throw new Error(`Failed to ${type} port`)
 
         return res.json({ type: "ok" })
     } catch (err) {
-        console.error(`Failed to close port: ${err}`)
-
-        return res.status(500).json({ type: "failed" })
-    }
-})
-
-// open port
-router.post(`/port/open`, requireLogin, async (req, res) => {
-    const { port } = req.body
-
-    if (!port) return res.status(400).json({ type: "bad" })
-
-    try {
-        const data = await firewallService.openPort(port)
-        if (!data) throw new Error("Failed to open port")
-
-        return res.json({ type: "ok" })
-    } catch (err) {
-        console.error(`Failed to open port: ${err}`)
-
+        console.error(`Failed to ${type} port: ${err}`)
         return res.status(500).json({ type: "failed" })
     }
 })

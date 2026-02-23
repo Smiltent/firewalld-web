@@ -10,9 +10,7 @@ router.get('/main', requireLogin, (req, res) => {
 }) 
 
 router.get('/add', requireLogin, async (req, res) => {
-    res.render("pages/add", {
-        zones: await firewallService.getZones()
-    })
+    res.render("pages/add", { zones: await firewallService.getZones() })
 }) 
 
 router.get('/services', requireLogin, async (req, res) => {

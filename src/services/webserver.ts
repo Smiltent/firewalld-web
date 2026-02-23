@@ -19,8 +19,14 @@ export default class WebserverService {
         this.app = express()
 
         this.init()
-        this.routes()
-        this.start() 
+
+        this.app.use('/d', firewallRulesRoutes)
+        this.app.use('/p', pagesRoutes)
+        this.app.use('/', publicRoutes)
+        
+        this.app.listen(this.port, () => {
+            console.info(`Running on http://0.0.0.0:${this.port}!`)  
+        })
     }
 
     public init() {
@@ -63,17 +69,5 @@ export default class WebserverService {
                 ...allowedIps
             ])
         }
-    }
-
-    public routes() {
-        this.app.use('/d', firewallRulesRoutes)
-        this.app.use('/p', pagesRoutes)
-        this.app.use('/', publicRoutes)
-    }
-
-    public start() {
-        this.app.listen(this.port, () => {
-            console.log(`Webserver running on port ${this.port}!`)  
-        })
     }
 }

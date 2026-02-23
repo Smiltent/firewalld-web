@@ -23,10 +23,6 @@ router.get("/l", (req, res) => {
     return res.redirect("/")
 })
 
-router.get("/favicon.ico", (req, res) => {
-    res.sendFile(path.join(__dirname, "..", "..", "public/", "favicon.ico"))
-})
-
 router.post('/a', (req, res) => {
     const { password } = req.body
     if (
