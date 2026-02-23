@@ -23,7 +23,7 @@ export default class FirewalldService {
      */
     private richrule(cmd: string): Promise<string> {
         return new Promise((resolve, reject) => {
-            exec(`firewall-cmd --add-rich-rule='${cmd}'`, (error, stdout, stderr) => {
+            exec(`firewall-cmd --permanent --add-rich-rule='${cmd}'`, (error, stdout, stderr) => {
                 if (error) return reject(stderr || error.message)
 
                 resolve(stdout.trim())
@@ -78,18 +78,15 @@ export default class FirewalldService {
     }
 
     // ===================================================
-    // ports
+    // methods
     // ===================================================
-    public async typePort(port: string, protocol: PortProtocols = PortProtocols.tcp) {
-        var result = await this.firewallcmd(`--add-port=${port}/${protocol} --permanent`)
+    public async typePort(port: string, protocol: PortProtocols = PortProtocols.tcp, type: string) {
+        var result = await this.richrule(`rule family="ipv4" port port="${port}" protocol="${protocol}" ${type}`)
         var reload = await this.reload()
 
         return result == "success" && reload == true ? true : false
     }
 
-    // ===================================================
-    // rich rules - supports ip ranges and port ranges
-    // ===================================================
     public async typeIp(ip: string, type: string) {
         var result = await this.richrule(`rule family="ipv4" source address="${ip}" ${type}`)
         var reload = await this.reload()

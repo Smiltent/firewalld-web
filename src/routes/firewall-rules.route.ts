@@ -10,7 +10,9 @@ const router = Router()
 router.post('/ip', requireLogin, async (req, res) => {
     const { ip, type } = req.body
 
-    if (!type || !(type in TypeKeys)) return res.status(400).json({ type: "bad" })
+    console.debug(ip, type)
+
+    if (!type || !TypeKeys.includes(type)) return res.status(400).json({ type: "bad" })
     if (!ip) return res.status(400).json({ type: "bad" })
 
     try {
@@ -29,7 +31,7 @@ router.post('/ip-bulk', requireLogin, async (req, res) => {
     const { ips, seperator, type } = req.body
 
     if (!seperator || !(seperator in SeperatorKeys)) return res.status(400).json({ type: "bad" })
-    if (!type || !(type in TypeKeys)) return res.status(400).json({ type: "bad" })
+    if (!type || !TypeKeys.includes(type)) return res.status(400).json({ type: "bad" })
     if (!ips) return res.status(400).json({ type: "bad" })
 
     const ipsArray = ips
@@ -54,7 +56,7 @@ router.post('/ip-bulk', requireLogin, async (req, res) => {
 router.post('/ip-port', requireLogin, async (req, res) => {
     const { ip, port, type } = req.body
 
-    if (!type || !(type in TypeKeys)) return res.status(400).json({ type: "bad" })
+    if (!type || !TypeKeys.includes(type)) return res.status(400).json({ type: "bad" })
     if (!ip || !port) return res.status(400).json({ type: "bad" })
 
     try {
@@ -71,19 +73,32 @@ router.post('/ip-port', requireLogin, async (req, res) => {
 
 // <open / close> port
 router.post(`/port`, requireLogin, async (req, res) => {
-    const { port, type } = req.body
+    const { port, type, protocol } = req.body
 
-    if (!type || !(type in TypeKeys)) return res.status(400).json({ type: "bad" })
+    if (!type || !TypeKeys.includes(type)) return res.status(400).json({ type: "bad" })
     if (!port) return res.status(400).json({ type: "bad" })
 
     try {
-        const data = await firewallService.typePort(port, type)
+        const data = await firewallService.typePort(port, protocol, type)
         if (!data) throw new Error(`Failed to ${type} port`)
 
         return res.json({ type: "ok" })
     } catch (err) {
         console.error(`Failed to ${type} port: ${err}`)
         return res.status(500).json({ type: "failed" })
+    }
+})
+
+router.post(`/target`, requireLogin, async (req, res) => {
+    const { zone, type } = req.body
+
+    if (!type || !TypeKeys.includes(type)) return res.status(400).json({ type: "bad" })
+    if (!zone) return res.status(400).json({ type: "bad" })
+
+    try {
+        
+    } catch (err) {
+
     }
 })
 

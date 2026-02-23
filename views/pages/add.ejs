@@ -4,7 +4,7 @@
         <div class="add-section">
             <h2>quick add</h2>
             <!-- ips -->
-            <form method="POST" class="flex flex-row">
+            <form method="POST" action="/d/ip" class="flex flex-row">
                 <select name="type">
                     <option value="drop">drop</option>
                     <option value="reject">reject</option>
@@ -16,7 +16,7 @@
             </form>
 
             <!-- ports -->
-            <form method="POST" class="flex flex-row">
+            <form method="POST" action="/d/port" class="flex flex-row">
                 <select name="type">
                     <option value="drop">drop</option>
                     <option value="reject">reject</option>
@@ -38,7 +38,7 @@
 
         <div class="add-section">
             <h2>target</h2>
-            <form method="POST" class="flex flex-row">
+            <form method="POST" action="/d/target" class="flex flex-row">
                 <select name="zone">
                     <% zones.forEach(zone => { %>
                         <option value="<%= zone %>"><%= zone %></option>
@@ -46,7 +46,7 @@
                 </select>
                 <p>—</p>
 
-                <select name="target">
+                <select name="type">
                     <option value="accept">accept</option>
                     <option value="drop">drop</option>
                     <option value="reject">reject</option>
@@ -58,7 +58,7 @@
     <div class="flex flex-row">
         <div class="add-section">
             <h2>bulk ips</h2>
-            <form method="POST" class="flex flex-col">
+            <form method="POST" action="/d/ip-bulk" class="flex flex-col">
                 <textarea name="ips" id="ips" rows="10" placeholder="example: 192.168.0.0/24 192.168.0.1"></textarea>
                 <div class="flex flex-row">
                     <select name="type">
@@ -66,7 +66,7 @@
                         <option value="reject">reject</option>
                         <option value="accept">accept</option>
                     </select>
-                    <select name="seperate">
+                    <select name="seperator">
                         <option value="newline">newline (\n)</option>
                         <option value="semicolon">semicolon (;)</option>
                         <option value="comma">comma (,)</option>
@@ -78,7 +78,7 @@
 
         <div class="add-section">
             <h2>rich rule</h2>
-            <form method="POST" action="/">
+            <form method="POST" action="/d/rich-rule-creator">
                 <select name="family">
                     <option value="ipv4">ipv4</option>
                     <option value="ipv6">ipv6</option>
