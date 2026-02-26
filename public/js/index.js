@@ -2,7 +2,7 @@
 // "pro tips"
 const PROTIPS = {
     "pc": "pro tip: there is no login form, just write and enter",
-    "phone": "pro tip: lol, im not supporting mobile devices"
+    "phone": "pro tip: lol, im not supporting mobile devices... yet"
 }
 
 // elements

@@ -1,25 +1,25 @@
-<table>
-    <tr class="unselectable">
-        <th>rich rule</th>
-        <th>actions</th>
-    </tr>
-    <% if (richrules && richrules[0] != "") { %>
-        <% richrules.forEach(richrule => { %>
-            <tr>
-                <td><%- 
+<div>
+    <div class="flex flex-row">
+        <p>filter —</p>
+        <select name="" id="">
+            <option value="">drop</option>
+            <option value="">...</option>
+            <option value="">...</option>
+        </select>
+        <p>—</p>
+    </div>
+    <div class="scrolling">
+        <% if (richrules && richrules[0] != "") { %>
+            <% richrules.forEach(richrule => { %>
+                <p onclick="openEditModal(`<%- richrule.replace(/"/g, "'") %>`)"><%- 
                     richrule
                         .replace("accept", "<span class='green bold'>accept</span>")
                         .replace("reject", "<span class='red bold'>reject</span>")
                         .replace("drop", "<span class='red bold'>drop</span>")
-                %></td>
-                <td class="unselectable">
-                    <p class="fw-button-del pointer" onclick="deleteRichrule('<%= richrule %>')">delete</p>
-                </td>
-            </tr>
-        <% }) %>
-    <% } else { %>
-        <tr>
-            <td colspan="2">no rich rules</td>
-        </tr>
-    <% } %>
-</table>
+                %></p>
+            <% }) %>
+        <% } else { %>
+            <p>none found — try making some..?</p>
+        <% } %>
+    </div>
+</div>

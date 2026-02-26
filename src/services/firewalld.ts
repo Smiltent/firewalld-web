@@ -1,6 +1,19 @@
 
 import { exec } from "child_process"
-import { PortProtocols } from "../util/keys"
+
+enum PortProtocols {
+    tcp = "tcp",
+    udp = "udp"
+}
+
+/**
+ * Originally, this was called firewalld web ui
+ * 
+ * but, the whole reason why I decided to switch this to iptables, 
+ * because I recently (25.02.26), got a really bad experience with firewalld
+ * 
+ * so I am switching back to iptables
+ */
 
 export default class FirewalldService {
     /**

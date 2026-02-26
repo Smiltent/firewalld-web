@@ -90,10 +90,18 @@ input[type="submit"] {
 }
 
 .content { font-family: "Geist", sans-serif; }
-.content table {
-    border: 1px solid var(--text);
-    border-collapse: collapse;
+.content .scrolling {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    height: 16rem;
+    overflow-y: scroll;
 }
+.content .scrolling p {
+    padding: 0.2rem;
+    cursor: pointer;
+}
+
 
 .content table th, .content table td {
     border: 1px solid var(--text);

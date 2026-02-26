@@ -1,8 +1,4 @@
 
-const ROUTES = {
-    
-}
-
 async function loadPage(page) {
     const response = await fetch("/p/" + page)
 
@@ -52,3 +48,13 @@ document.getElementById("theme").addEventListener("click", async () => {
         document.documentElement.setAttribute("data-theme", "dark")
     }
 })
+
+function openEditModal(rule) {
+    
+
+    document.querySelector(".edit-modal-container").classList.remove("hidden")
+}
+
+function closeEditModal() {
+    document.querySelector(".edit-modal-container").classList.add("hidden")
+}

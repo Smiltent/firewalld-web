@@ -10,19 +10,11 @@ router.get('/main', requireLogin, (req, res) => {
 }) 
 
 router.get('/add', requireLogin, async (req, res) => {
-    res.render("pages/add", { zones: await firewallService.getZones() })
+    res.render("pages/add") /* { zones: await firewallService.getZones() } */
 }) 
 
-router.get('/services', requireLogin, async (req, res) => {
-    res.render("pages/services", { services: await firewallService.getServices() })
-}) 
-
-router.get('/ports', requireLogin, async (req, res) => {
-    res.render("pages/ports", { ports: await firewallService.getOpenPorts() })
-}) 
-
-router.get('/richrules', requireLogin, async (req, res) => {
-    res.render("pages/richrules", { richrules: await firewallService.getRichRules() })
+router.get('/rules', requireLogin, async (req, res) => {
+    res.render("pages/rules", { richrules: await firewallService.listRules() })
 }) 
 
 export default router
