@@ -62,7 +62,7 @@ export default class IptablesService {
                 const parts = line.trim().split(/\s+/)
                 return {
                     nr: parseInt(parts[0] as string),
-                    chain: "INPUT",
+                    state: "INPUT",
                     target: parts[3] || "",
                     protocol: parts[4] || "all",
                     source: parts[8] || "",
