@@ -10,11 +10,16 @@ router.get('/main', requireLogin, (req, res) => {
 }) 
 
 router.get('/add', requireLogin, async (req, res) => {
-    res.render("pages/add") /* { zones: await firewallService.getZones() } */
+    res.render("pages/add")
 }) 
 
 router.get('/rules', requireLogin, async (req, res) => {
-    res.render("pages/rules", { richrules: await firewallService.listRules() })
-}) 
+    try {
+        const rules = await firewallService.listRules()
+        res.render("pages/rules", { rules })
+    } catch (err) {
+        res.render("pages/rules", { rules: [], error: "failed to load rules" })
+    }
+})
 
 export default router

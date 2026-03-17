@@ -1,23 +1,33 @@
 <div>
-    <div class="flex flex-row">
+    <!-- <div class="flex flex-row">
         <p>filter —</p>
-        <select name="" id="">
-            <option value="">drop</option>
-            <option value="">...</option>
-            <option value="">...</option>
+        <select id="filter-target" onchange="filterRules()">
+            <option value="">all</option>
+            <option value="ACCEPT">accept</option>
+            <option value="DROP">drop</option>
+            <option value="REJECT">reject</option>
         </select>
         <p>—</p>
-    </div>
+    </div> -->
     <div class="scrolling">
-        <% if (richrules && richrules[0] != "") { %>
-            <% richrules.forEach(richrule => { %>
-                <p onclick="openEditModal(`<%- richrule.replace(/"/g, "'") %>`)"><%- 
-                    richrule
-                        .replace("accept", "<span class='green bold'>accept</span>")
-                        .replace("reject", "<span class='red bold'>reject</span>")
-                        .replace("drop", "<span class='red bold'>drop</span>")
-                %></p>
+        <% if (rules && rules.length > 0) { %>
+            <% rules.forEach(rule => { %>
+                <div class="rule-row flex flex-row" data-target="<%= rule.target %>" data-line="<%= rule.lineNumber %>">
+                    <span class="rule-num">#<%= rule.nr %></span>
+                    <span class="rule-target <%= rule.target.toLowerCase() %>-label bold"><%= rule.target.toLowerCase() %></span>
+                    <span class="rule-proto"><%= rule.protocol %></span>
+                    <span class="rule-src"><%= rule.source %></span>
+                    <span class="rule-arrow">—</span>
+                    <span class="rule-dst"><%= rule.destination %></span>
+                    <% if (rule.options) { %>
+                        <span class="rule-opts"><%= rule.options %></span>
+                    <% } %>
+
+                    <button class="rule-delete" onclick="deleteRule(<%= rule.nr %>)">x</button>
+                </div>
             <% }) %>
+        <% } else if (typeof error !== 'undefined') { %>
+            <p class="rule-error"><%= error %></p>
         <% } else { %>
             <p>none found — try making some..?</p>
         <% } %>

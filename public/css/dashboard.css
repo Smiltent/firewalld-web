@@ -97,16 +97,90 @@ input[type="submit"] {
     height: 16rem;
     overflow-y: scroll;
 }
-.content .scrolling p {
-    padding: 0.2rem;
-    cursor: pointer;
+
+.rules-hehader {
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.4rem;
 }
 
+.rule-row {
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.2rem 0.3rem;
+    border-radius: 3px;
+}
 
-.content table th, .content table td {
+.rule-num { 
+    opacity: 0.4;
+    font-size: 0.8rem;
+    min-width: 1.5rem;
+}
+
+.rule-proto {
+    opacity: 0.6;
+    font-size: 0.85rem;
+}
+
+.rule-src {
+    flex: 1;
+}
+
+.rule-opts {
+    opacity: 0.6;
+    font-size: 0.85rem;
+}
+
+.rule-delete {
+    opacity: 0;
+
+    border: none;
+    background: none;
+
+    color: var(--red);
+    font-size: 1.1rem;
+    padding: 0 0.2rem;
+    line-height: 1;
+    margin-left: auto;
+}
+
+.rule-row:hover .rule-delete { opacity: 1; }
+
+.accept-label {
+    color: var(--green);
+}
+
+.drop-label, .reject-label {
+    color: var(--red);
+}
+
+.masquerade-label {
+    color: var(--yellow);
+}
+
+.delete-modal-container {
+    background-color: rgba(0,0,0,0.35);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.delete-modal-container.hidden { display: none; }
+
+.delete-modal {
+    background-color: var(--bg);
     border: 1px solid var(--text);
-    padding: 0.5rem;
+    border-radius: 5px;
+    padding: 1.2rem 1.6rem;
+    gap: 1rem;
 }
+
+.delete-modal .flex-row { gap: 0.6rem; }
 
 @media screen and (max-width: 900px) {
     .header {

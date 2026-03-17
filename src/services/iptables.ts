@@ -53,7 +53,7 @@ export default class IptablesService {
     // list
     // ===================================================
     public async listRules() {
-        const out = await this.iptables(["-L", "INPUT", "-n", "--line-numbers", "-v"]) // TODO:
+        const out = await this.iptables(["-L", "INPUT", "-n", "--line-numbers", "-v"])
         const lines = out.split("\n").slice(2)
 
         return lines
@@ -61,14 +61,14 @@ export default class IptablesService {
             .map(line => {
                 const parts = line.trim().split(/\s+/)
                 return {
-                    nr: parseInt(parts[0] || "0"),
-                    state: "INPUT",
+                    nr: parseInt(parts[0] as string),
+                    chain: "INPUT",
                     target: parts[3] || "",
                     protocol: parts[4] || "all",
-                    source: parts[7] || "anywhere",
-                    destination: parts[8] || "anywhere",
-                    option: parts.slice(9).join(" ") || " ",
-                    raw: line.trim()
+                    source: parts[8] || "",
+                    destination: parts[9] || "",
+                    options: parts.slice(10).join(" ") || "",
+                    raw: line.trim(),
                 }
             })
     }

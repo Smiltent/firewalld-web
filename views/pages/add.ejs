@@ -2,112 +2,104 @@
 <div class="add-container flex flex-col">
     <div class="flex flex-row">
         <div class="add-section">
-            <h2>quick add</h2>
-            <!-- ips -->
-            <form method="POST" action="/d/ip" class="flex flex-row">
-                <select name="type">
-                    <option value="drop">drop</option>
-                    <option value="reject">reject</option>
-                    <option value="accept">accept</option>
-                </select>
-                <p>—</p>
-                <input type="text" name="ip" id="ip" placeholder="ip (192.168.0.1)">
-                <input type="submit" value="add">
-            </form>
-
-            <!-- ports -->
-            <form method="POST" action="/d/port" class="flex flex-row">
-                <select name="type">
-                    <option value="drop">drop</option>
-                    <option value="reject">reject</option>
-                    <option value="accept">accept</option>
+            <h2>ips</h2>
+            <div class="flex flex-row add-form">
+                <select id="ip-target">
+                    <option value="DROP">drop</option>
+                    <option value="REJECT">reject</option>
+                    <option value="ACCEPT">accept</option>
                 </select>
                 <p>—</p>
 
-                <input type="text" name="port" id="port" placeholder="port (8080)">
+                <input type="text" id="ip-addr" placeholder="192.168.0.1">
+
+                <button onclick="addIp()">add</button>
+            </div>
+        </div>
+
+        <div class="add-section">
+            <h2>ports</h2>
+            <div class="flex flex-row add-form">
+                <select id="port-target">
+                    <option value="DROP">drop</option>
+                    <option value="REJECT">reject</option>
+                    <option value="ACCEPT">accept</option>
+                </select>
+                <p>—</p>
+
+                <input type="text" id="port-num" placeholder="8080">
                 <p>/</p>
                 
-                <select name="protocol">
+                <select id="port-protocol">
                     <option value="tcp">tcp</option>
                     <option value="udp">udp</option>
                     <option value="icmp">icmp</option>
                 </select>
-                <input type="submit" value="add">
-            </form>
-        </div>
 
-        <div class="add-section">
-            <h2>target</h2>
-            <form method="POST" action="/d/target" class="flex flex-row">
-                <select name="zone">
-                    <%# zones.forEach(zone => { %>
-                        <option value="<%= zone %>"><%= zone %></option>
-                    <%# }) %>
-                </select>
-                <p>—</p>
-
-                <select name="type">
-                    <option value="accept">accept</option>
-                    <option value="drop">drop</option>
-                    <option value="reject">reject</option>
-                </select>
-            </form>
+                <button onclick="addPort()">add</button>
+            </div>
         </div>
     </div>
 
     <div class="flex flex-row">
         <div class="add-section">
-            <h2>bulk ips</h2>
-            <form method="POST" action="/d/ip-bulk" class="flex flex-col">
-                <textarea name="ips" id="ips" rows="10" placeholder="example: 192.168.0.0/24 192.168.0.1"></textarea>
-                <div class="flex flex-row">
-                    <select name="type">
-                        <option value="drop">drop</option>
-                        <option value="reject">reject</option>
-                        <option value="accept">accept</option>
-                    </select>
-                    <select name="seperator">
-                        <option value="newline">newline (\n)</option>
-                        <option value="semicolon">semicolon (;)</option>
-                        <option value="comma">comma (,)</option>
-                    </select>
-                    <input type="submit" value="add">
-                </div>
-            </form>
-        </div>
+            <h2>ip + port</h2>
+            <div class="flex flex-row add-form">
+                <select id="ipport-target">
+                    <option value="DROP">drop</option>
+                    <option value="REJECT">reject</option>
+                    <option value="ACCEPT">accept</option>
+                </select>
+                <p>—</p>
 
-        <div class="add-section">
-            <h2>rich rule</h2>
-            <form method="POST" action="/d/rich-rule-creator">
-                <select name="family">
-                    <option value="ipv4">ipv4</option>
-                    <option value="ipv6">ipv6</option>
-                </select>
-                <select name="type">
-                    <option value="drop">drop</option>
-                    <option value="reject">reject</option>
-                    <option value="accept">accept</option>
-                </select>
-                <select name="protocol">
+                <input type="text" id="ipport-ip" placeholder="192.168.0.1">
+                <p>:</p>
+
+                <input type="text" id="ipport-port" placeholder="8080">
+                <p>/</p>
+
+                <select id="ipport-protocol">
                     <option value="tcp">tcp</option>
                     <option value="udp">udp</option>
                     <option value="icmp">icmp</option>
                 </select>
 
-                <div>
-                    <input type="text" name="sourceIp" placeholder="source ip (from)">
-                    <input type="text" name="destinationIp" placeholder="destination ip (to)">
+                <button onclick="addIpPort()">add</button>
+            </div>
+        </div>
+        
+        <div class="add-section">
+            <h2>rich rule</h2>
+            <div class="flex flex-col add-form">
+                <div class="flex flex-row">
+                    <select id="rr-target">
+                        <option value="DROP">drop</option>
+                        <option value="REJECT">reject</option>
+                        <option value="ACCEPT">accept</option>
+                    </select>
+                    <p>—</p>
+
+                    <select id="rr-protocol">
+                        <option value="tcp">tcp</option>
+                        <option value="udp">udp</option>
+                        <option value="icmp">icmp</option>
+                    </select>
                 </div>
-                <div>
-                    <input type="text" name="sourcePort" placeholder="source port (from)">
-                    <input type="text" name="destinationPort" placeholder="destination port (to)">
+                <div class="flex flex-row">
+                    <input type="text" id="rr-source" placeholder="source ip">
+                    <p>—</p>
+
+                    <input type="text" id="rr-destination" placeholder="dest ip">
+                </div>
+                <div class="flex flex-row">
+                    <input type="text" id="rr-sport" placeholder="src port">
+                    <p>—</p>
+
+                    <input type="text" id="rr-dport" placeholder="dst port">
                 </div>
 
-                <input type="text" name="limit" placeholder="limit (5/s, 10/m, 15/h, ...)">
-
-                <input type="submit" value="add">
-            </form>
+                <button onclick="addRichRule()">add</button>
+            </div>
         </div>
     </div>
 </div>
-

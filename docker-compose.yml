@@ -1,0 +1,13 @@
+
+services:
+  firewall:
+    build: .
+    restart: unless-stopped
+    network_mode: host
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    env_file:
+      - .env
+    volumes:
+      - /sbin/iptables:/sbin/iptables:ro
