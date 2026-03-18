@@ -9,6 +9,12 @@ router.get('/', (req, res) => {
         return res.redirect("/d")
     }
 
+    // okay... if they can't figure this out, I don't know what will
+    if (process.env.NODE_ENV === "showcase") {
+        req.session.loggedIn = true
+        return res.redirect("/d")
+    }
+
     res.render("index")
 }) 
 

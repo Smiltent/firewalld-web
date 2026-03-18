@@ -1,11 +1,10 @@
 
 import { targetsList, Protocols, Targets, protocolsList } from "../services/iptables.ts"
 import requireLogin from "../middlewares/auth.middlewares.ts"
+import { isIp, isPort } from "../util/validate.ts"
 import { firewallService } from "../../index.ts"
 
 import { Router } from "express"
-import { isIp, isPort } from "../util/validate.ts"
-import { isParameter } from "typescript"
 const router = Router()
 
 // <allow / deny> * traffic from an IP
