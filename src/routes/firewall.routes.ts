@@ -4,6 +4,8 @@ import requireLogin from "../middlewares/auth.middlewares.ts"
 import { firewallService } from "../../index.ts"
 
 import { Router } from "express"
+import { isIp, isPort } from "../util/validate.ts"
+import { isParameter } from "typescript"
 const router = Router()
 
 // <allow / deny> * traffic from an IP
@@ -13,6 +15,8 @@ router.post('/ip', requireLogin, async (req, res) => {
     if (!ip || !target || !targetsList.includes(target)) return res.status(400).json({ type: "bad" })
 
     try {
+        if (!isIp(ip)) return
+        
         await firewallService.ip(ip, target as Targets)
 
         return res.json({ type: "ok" })
@@ -30,6 +34,9 @@ router.post('/ipport', requireLogin, async (req, res) => {
     if (!protocol || !protocolsList.includes(protocol)) return res.status(400).json({ type: "bad" })
 
     try {
+        if (!isIp(ip)) return
+        if (!isPort(port)) return
+
         await firewallService.portForIp(ip, port, protocol as Protocols, target as Targets)
 
         return res.json({ type: "ok" })
@@ -47,6 +54,8 @@ router.post(`/port`, requireLogin, async (req, res) => {
     if (!protocol || !protocolsList.includes(protocol)) return res.status(400).json({ type: "bad" })
 
     try {
+        if (!isPort(port)) return
+
         await firewallService.port(port, protocol as Protocols, target as Targets)
 
         return res.json({ type: "ok" })
@@ -63,6 +72,11 @@ router.post(`/richrule`, requireLogin, async (req, res) => {
     if (!protocol || !protocolsList.includes(protocol)) return res.status(400).json({ type: "bad" })
 
     try {
+        if (!isIp(source)) return
+        if (!isIp(destination)) return
+        if (!isPort(sourcePort)) return
+        if (!isPort(destinationPort)) return
+
         await firewallService.richRule({
             source,
             destination,

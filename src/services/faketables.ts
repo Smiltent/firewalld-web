@@ -10,8 +10,9 @@
 
 */
 
-import { Database } from "bun:sqlite"
 import { Protocols, Targets, type ParsedRule } from "./iptables.ts"
+import { isIp, isPort } from "../util/validate.ts"
+import { Database } from "bun:sqlite"
 
 export const protocolsList = Object.values(Protocols)
 export const targetsList = Object.values(Targets)
