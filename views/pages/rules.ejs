@@ -14,11 +14,10 @@
             <% rules.forEach(rule => { %>
                 <div class="rule-row flex flex-row" data-target="<%= rule.target %>" data-line="<%= rule.lineNumber %>">
                     <span class="rule-num">#<%= rule.nr %></span>
-                    <span class="rule-target <%= rule.target.toLowerCase() %>-label bold"><%= rule.target.toLowerCase() %></span>
+                    <span class="rule-target <%= rule.target.toLowerCase() %>-label bold"><%= rule.target.toLowerCase() %></span>1
                     <span class="rule-proto"><%= rule.protocol %></span>
-                    <span class="rule-src"><%= rule.source %></span>
-                    <span class="rule-arrow">—</span>
-                    <span class="rule-dst"><%= rule.destination %></span>
+                    <span class="rule-src"><%= rule.source %><% if (rule.sourcePort) { %>:<%= rule.sourcePort %><% } %></span>
+                    <span class="rule-dst"><%= rule.destination %><% if (rule.destinationPort) { %>:<%= rule.destinationPort %><% } %></span>
                     <% if (rule.options) { %>
                         <span class="rule-opts"><%= rule.options %></span>
                     <% } %>

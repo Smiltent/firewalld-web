@@ -34,4 +34,4 @@ export function isPort(input: string) {
     if (!Number.isInteger(port) || port < 0 || port >= 65535) throw new Error("invalid port range")
 
     return true
-}1
+}
